@@ -1,5 +1,6 @@
 
 import sys
+import math
 
 def print_help():
     print(
@@ -13,21 +14,61 @@ def print_help():
     )
 
 def main():
-    if len(sys.argv)==0 or sys.argv[0]=="--help":
+    if len(sys.argv)==1 or sys.argv[1]=="--help":
         print_help()
         sys.exit(0)
-    if len(sys.argv)>=1 and sys.argv[1]!="solve":
-        print("Неизестная команда",file=sys.stderr)
+    elif sys.argv[1]!="solve":
+        print("ОШИБКА: Неизестная команда",file=sys.stderr)
         sys.exit(1)
-    if len(sys.argv)==1 and sys.argv[1]=="solve":
-        a=int(input("Введите параметр -a:"))
-        b=int(input("Введите параметр -b:"))
-        c=int(input("Введите параметр -c:"))
+    elif len(sys.argv)==2 and sys.argv[1]=="solve":
+        a1=int(input("Введите параметр -a: "))
+        b1=int(input("Введите параметр -b: "))
+        c1=int(input("Введите параметр -c: "))
     elif len(sys.argv)==7:
         if sys.argv[2]!="-a" or sys.argv[4]!="-b" or sys.argv[6]!="-c":
-            print("Неизвестный параметр",file=sys.stderr)
+            print("ОШИБКА: Неизвестный параметр",file=sys.stderr)
             sys.exit(1)
     else:
-        print("Неправильный набор параметров",file=sys.stderr)
-if __name__=="__main__":
-    main()
+        print("ОШИБКА: Неправильный набор параметров",file=sys.stderr)
+
+
+    try:
+        a=int(a1)
+        b=int(b1)
+        c=int(c1)
+    except ValueError:
+        print("ОШИБКА: коэффициент не является целым числом",file=sys.stderr)
+        sys.exit(1)
+
+
+    if abs(a)>10000 or abs(b)>10000 or abs(c)>10000:
+        print("ОШИБКА: Значение одной из переменной вне допустимого диапазона",file=sys.stderr)
+        sys.exit(1)
+
+
+    if a==0:
+        if b!=0:
+            print("Уравнение линейное")
+            x=-c/b
+            print(f"{x:.3f}")
+        else:
+            print("ОШИБКА: Это не уравнение, неизвестное отсутствует",file=sys.stderr)
+        sys.exit(1)
+
+    print("Уравнение квадратное")
+
+    D=b*b - 4*a*c
+    print(f"Дискриминант равен {D}")
+
+    if D>0:
+        x1=(-b+math.sqrt(D))/(2*a)
+        x2=(-b-math.sqrt(D))/(2*a)
+        print(f"Первый корень: {x1:.3f}\nВторой корень:{x2:.3f}")
+    elif D==0:
+        x=-b/(2*a)
+        print(f"Корень равен {x:.3f}")
+    else:
+        print("Действительных корней нет")
+    
+    sys.exit(0)
+main()
