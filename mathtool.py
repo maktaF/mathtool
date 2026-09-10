@@ -24,12 +24,17 @@ def main():
         a1=int(input("Введите параметр -a: "))
         b1=int(input("Введите параметр -b: "))
         c1=int(input("Введите параметр -c: "))
-    elif len(sys.argv)==7:
+    elif len(sys.argv)==8:
         if sys.argv[2]!="-a" or sys.argv[4]!="-b" or sys.argv[6]!="-c":
             print("ОШИБКА: Неизвестный параметр",file=sys.stderr)
             sys.exit(1)
+        else:
+            a1=sys.argv[3]
+            b1=sys.argv[5]
+            c1=sys.argv[7]
     else:
         print("ОШИБКА: Неправильный набор параметров",file=sys.stderr)
+        sys.exit(1)
 
 
     try:
@@ -71,4 +76,5 @@ def main():
         print("Действительных корней нет")
     
     sys.exit(0)
+    
 main()
