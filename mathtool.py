@@ -2,6 +2,8 @@
 import sys
 import math
 
+max_value=10000
+
 def print_help():
     print(
         "Mathtool - решение уранений вида a*x^2 + b*x + c = 0\n" \
@@ -46,7 +48,7 @@ def main():
         sys.exit(1)
 
 
-    if abs(a)>10000 or abs(b)>10000 or abs(c)>10000:
+    if abs(a)>max_value or abs(b)>max_value or abs(c)>max_value:
         print("ОШИБКА: Значение одной из переменной вне допустимого диапазона",file=sys.stderr)
         sys.exit(1)
 
