@@ -13,9 +13,9 @@ def build_parser():
         help="Решение уравнений",
         allow_abbrev=False
     )
-    solve_parser.add_argument("-a",type=int)
-    solve_parser.add_argument("-b",type=int)
-    solve_parser.add_argument("-c",type=int)
+    solve_parser.add_argument("-a",help="Коэффициент A",type=int)
+    solve_parser.add_argument("-b",help="Коэффициент В",type=int)
+    solve_parser.add_argument("-c",help="Коэффициент С",type=int)
 
     stats_parser = commands.add_parser(
         "stats",
