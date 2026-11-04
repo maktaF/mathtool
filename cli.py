@@ -22,26 +22,26 @@ def build_parser():
         help="Показатели последовательности",
         allow_abbrev=False
     )
-    stats_parser.add_argument("--input")
+    stats_parser.add_argument("--input",help="Файл со значениями")
 
     series_parser = commands.add_parser(
         "series",
         help="Сумма ряда",
         allow_abbrev=False
     )
-    series_parser.add_argument("--func", required=True)
+    series_parser.add_argument("--func",help="Какой ряд суммировать" , required=True)
     series_group = series_parser.add_mutually_exclusive_group(required=True)
-    series_group.add_argument("--terms",type=int)
-    series_group.add_argument("--eps",type=float)
+    series_group.add_argument("--terms", help="Сколько слагаемых сложить [1,10000]",type=int)
+    series_group.add_argument("--eps", help="До какой величины слагаемого считать (0,0.0001]",type=float)
 
     integrate_parser = commands.add_parser(
         "integrate",
         help="Численное интегрирование",
         allow_abbrev=False
     )
-    integrate_parser.add_argument("--func",required=True)
-    integrate_parser.add_argument("--from",dest="start",type=float,required=True)
-    integrate_parser.add_argument("--to",type=float,required=True)
-    integrate_parser.add_argument("--steps",type=int,required=True)
+    integrate_parser.add_argument("--func", help="Какую функцию интегрировать",required=True)
+    integrate_parser.add_argument("--from", help="Нижний предел интегрирования",dest="start",type=float,required=True)
+    integrate_parser.add_argument("--to",help="Верхний предел интегрирования",type=float,required=True)
+    integrate_parser.add_argument("--steps", help="На сколько прямоугольников делится отрезок [1,100000]",type=int,required=True)
 
     return parser
