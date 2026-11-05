@@ -4,6 +4,7 @@ MAX_VALUE=20
 MAX_ABS=10000
 
 def check_num(numbers):
+    '''Проверка содержания списка и кол-во значений в нем; проверка ограничений значений в списке'''
     if len(numbers)==0:
         raise ValueError("ОШИБКА: Список значений пуст")
     elif len(numbers)>MAX_VALUE:
@@ -16,15 +17,18 @@ def check_num(numbers):
 
 
 def summ(numbers):
+    '''Сумма списка'''
     result=0
     for i in numbers:
         result+=i
     return result
 
 def sred(numbers):
+    '''Среднее арифметическое списка'''
     return sum(numbers)/len(numbers)
 
 def mini(numbers):
+    '''Наименьшее значение в списке'''
     result=numbers[0]
     for i in numbers:
         if i<result:
@@ -32,6 +36,7 @@ def mini(numbers):
     return result
 
 def len_good(numbers):
+    '''Кол-во положительных чисел'''
     result=0
     for i in numbers:
         if i>0:
@@ -39,6 +44,7 @@ def len_good(numbers):
     return result
 
 def len_bad(numbers):
+    '''Кол-во отрицательных чисел'''
     result=0
     for i in numbers:
         if i<0:
@@ -46,6 +52,7 @@ def len_bad(numbers):
     return result
 
 def sum_kv_otkl(numbers):
+    '''Сумма квадратов отклонений'''
     sr_znach=sred(numbers)
     result=0
     for i in numbers:
@@ -53,14 +60,17 @@ def sum_kv_otkl(numbers):
     return result
 
 def disp(numbers):
+    '''Дисперсия'''
     return sum_kv_otkl(numbers)/len(numbers)
 
 def st_otkl(numbers):
+    '''Стандартное отклонение'''
     if len(numbers)<2:
         return None
     return math.sqrt(sum_kv_otkl(numbers)/(len(numbers)-1))
 
 def maxi(numbers):
+    '''Наибольшее значение в списке'''
     result=numbers[0]
     for i in numbers:
         if i>result:
@@ -68,16 +78,19 @@ def maxi(numbers):
     return result
 
 def sum_kv(numbers):
+    '''Сумма квадратов значений в списке'''
     result=0
     for i in numbers:
         result+=i**2
     return result
 
 def sr_kv(numbers):
+    '''Среднее квадратичное значений'''
     result=sum_kv(numbers)/len(numbers)
     return math.sqrt(result)
 
 def sko(numbers):
+    '''Сумма квадратов отклонений'''
     return math.sqrt(disp(numbers))
 
 

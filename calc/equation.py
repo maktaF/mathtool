@@ -3,6 +3,7 @@ import math
 max_value=10000
 
 def check_values(coeff):
+    '''Проверка коэффициентов на ограничения и перехват случая a=0, b=0'''
     for name, value in coeff.items():
         if abs(value)>max_value:
             raise ValueError(f"Коэффициент {name} вне допустимого значения")
@@ -10,7 +11,7 @@ def check_values(coeff):
         raise ValueError("Это не уравнение")
 
 def solve(a,b,c):
-
+    '''Решение уравнений'''
     if a==0:
         return "Lинейное",None, [-c/b]
 

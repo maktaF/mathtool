@@ -1,25 +1,10 @@
 import sys
 import math
 from cli import build_parser
-from calc import equation,stats,series
-
-def main(argv):
-    parser = build_parser()
-    args = parser.parse_args(argv)
-    if args.command == None:
-        parser.print_help()
-    
-    try:
-        if args.command=="solve":
-            return handle_solve(args)
-        elif args.command=="stats":
-            return handle_stats(args)
-        elif args.command=="series":
-            return handle_series(args)
-    except (ValueError,OSError) as error:
-        print(f"{error}", file=sys.stderr)
+from calc import equation,stats,series,integration
 
 def handle_solve(args):
+    '''Чтение коэффициентов, решение уравнения и вывод его корней'''
     values=(args.a,args.b,args.c)
 
     if all(value is None for value in values):
@@ -36,9 +21,11 @@ def handle_solve(args):
 
     equation.check_values({"A": a, "B": b, "C": c})
     kind,d,roots=equation.solve(a,b,c)
-    return f"{kind} уравнение\nДискриминант: {d}\nКорни: {roots}"
+    print(f"{kind} уравнение\nДискриминант: {d}\nКорни: {roots}")
+    return 0
 
 def handle_stats(args):
+    '''Чтение чисел, выводит одиннадцать показателей'''
     numbers=[]
     if args.input is not None:
         try:
@@ -65,11 +52,12 @@ def handle_stats(args):
     for label,function,form in stats.REPORT:
         value=function(numbers)
         if value is None:
-            return f"{label} НЕ СУЩЕСТВУЕТ"
+            print(f"{label} НЕ СУЩЕСТВУЕТ")
         else:
             print(f"{label}: {value:{form}}")
 
 def handle_series(args):
+    '''Вывод суммы ряда по количеству или точности'''
     term,formula=series.FORMULAS[args.func]
     if args.terms is not None:
         series.check_terms(args.terms)
@@ -82,6 +70,35 @@ def handle_series(args):
     print(f"Слагаемых: {count}")
     print(f"Сумма ряда: {result:.{series.DIGITS}}")
     return 0
+
+def handle_integration(args):
+    '''Вывод значения интеграла, проверка пределов'''
+    f,formula,low,high,i=integration.FUNCTIONS[args.func]
+    integration.check_prm(args.start,args.to,args.steps,low,high,i)
+    result=integration.integrate(f,args.start,args.to,args.steps)
+    print(formula)
+    print(f"Значение интеграла: {result:.4f}")
+    return 0
+
+COMM={
+    "solve": handle_solve,
+    "stats": handle_stats,
+    "series": handle_series,
+    "integrate": handle_integration
+}
+
+def main(argv):
+    '''Запуск одной из команд и вывод его результата'''
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if args.command == None:
+        parser.print_help()
+    else:
+        try:
+            return COMM[args.command](args)
+        except (ValueError,OSError) as error:
+            print(f"{error}", file=sys.stderr)
+            return 1
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))
