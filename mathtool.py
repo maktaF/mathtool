@@ -40,13 +40,12 @@ def handle_stats(args):
         except OSError:
             raise OSError("Файл не открывается")
     else:
-        for line in sys.stdin:
-            for word in line.split():
-                try:
-                    word=float(word)
-                except ValueError:
-                    raise ValueError(f"ОШИБКА: \"{word}\" не является числом")
-                numbers.append(word)
+        while 1:
+            a=input()
+            if len(a)==0:
+                break
+            for i in a.split():
+                numbers.append(float(i))
 
     stats.check_num(numbers)
     for label,function,form in stats.REPORT:
